@@ -11,5 +11,10 @@ public interface TutorialService {
     TutorialDto saveTutorial(TutorialDto tutorialDto);
     TutorialDto updateTutorial(int id, TutorialDto tutorialDto);
     TutorialDto deleteTutorial(int id);
+    List<TutorialDto> findByTitleContainingIgnoreCase(String word);
+
+    List<TutorialDto> findByPublished(Boolean published);
+    List<TutorialDto> findByTitleOrDescContainingIgnoreCase(String word);
+    List<TutorialDto> findByPublishedAndKeyword(Boolean published,String word);
 
 }

@@ -24,7 +24,8 @@ const AddTutorial = ({onAdd}) => {
     setIsAdding(false);
      };
 
-    const postUrl = "http://localhost:8888";
+    const postUrl = "http://localhost:8888/api/tutorials";
+    // const postUrl = "http://localhost:8888";
 
     const handleSubmit = async (e) => {
 
@@ -48,12 +49,21 @@ const AddTutorial = ({onAdd}) => {
             setTutorial({id : '',title : '',description : '',published : false});
 
         } catch (error) {
-            console.error('Error adding tutorial:', error);
-            alert('Failed to add tutorial');
-            
+            if (error.response) {
+                // Server responded with error
+                const { message, code } = error.response.data;
+                console.error("Bad Request:", message);
+                alert(`Error: ${message}`);        
+            }
+            else {
+                // Other unexpected error
+                console.error("Error:", error.message);
+                alert("Unexpected error occurred.");
+            }
         }
-
     }
+
+        
 
     const handleChange = (elem) => {
         const {name, value, type, checked} = elem.target;

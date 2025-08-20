@@ -13,7 +13,7 @@ const TutorialsCard = ({id, title, description, published,onReload}) => {
   );
 
   const handleDelete = async ()=>{
-    const delurl = `http://localhost:8888/${id}`;
+    const delurl = `http://localhost:8888/api/tutorials/${id}`;
 
     const confirmDelete = window.confirm(`Are you sure you want to delete "${title}"?`);
     if (!confirmDelete) return;
@@ -51,7 +51,7 @@ const TutorialsCard = ({id, title, description, published,onReload}) => {
   };
 
   const handleUpdate = async () => {
-    const updateurl = `http://localhost:8888/${id}`;
+    const updateurl = `http://localhost:8888/api/tutorials/${id}`;
 
     try {
       await axios.put(updateurl, formData);
@@ -61,9 +61,18 @@ const TutorialsCard = ({id, title, description, published,onReload}) => {
       
       setIsEditing(false);
     } catch (error) {
-      console.log("update failed..", error);
-      alert("could not update");
-    }
+            if (error.response) {
+                // Server responded with error
+                const { message, code } = error.response.data;
+                console.error("Bad Request:", message);
+                alert(`Error: ${message}`);        
+            }
+            else {
+                // Other unexpected error
+                console.error("Error:", error.message);
+                alert("Unexpected error occurred.");
+            }
+        }
   };
 
   return (

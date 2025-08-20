@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 import TutorialList from './TutorialList'
 import AddTutorial from './AddTutorial'
 import TutorialSearch from './TutorialSearch'
@@ -31,16 +28,18 @@ function App() {
 
       if (!hasKeyword && !hasPublished) {
         // fallback to all tutorials
-        url = 'http://localhost:8888';
+        url = 'http://localhost:8888/api/tutorials';
+        
+
       } 
       else if (hasKeyword && !hasPublished){
-        url = `http://localhost:8888/search?keyword=${keyword}`;
+        url = `http://localhost:8888/api/tutorials/search?keyword=${keyword}`;
       }
       else if (hasPublished && !hasKeyword){
-        url = `http://localhost:8888/search?published=${published}`;
+        url = `http://localhost:8888/api/tutorials/search?published=${published}`;
       }
       else {
-        url = `http://localhost:8888/search?keyword=${keyword}&published=${published}`
+        url = `http://localhost:8888/api/tutorials/search?keyword=${keyword}&published=${published}`
       }
 
       const response = await axios.get(url);
